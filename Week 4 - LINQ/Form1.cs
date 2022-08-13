@@ -12,6 +12,8 @@ namespace Week_4___LINQ
 {
     public partial class Form1 : Form
     {
+        private bool isUpdate = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -21,6 +23,30 @@ namespace Week_4___LINQ
         {
             loadDgv();
             loadCbRole();
+            enable(false);
+        }
+
+        private void enable(bool enabled)
+        {
+            enableField(enabled);
+            enableButton(enabled);
+        }
+
+        private void enableField(bool enabled)
+        {
+            txtID.Enabled = enabled;
+            txtName.Enabled = enabled;
+            txtEmal.Enabled = enabled;
+            txtPhoneNumber.Enabled = enabled;
+        }
+
+        private void enableButton(bool enabled)
+        {
+            btnInsert.Enabled = !enabled;
+            btnUpdate.Enabled = !enabled;
+            btnDelete.Enabled = !enabled;
+            btnSave.Enabled = enabled;
+            btnCancel.Enabled = enabled;
         }
 
         private void loadCbRole()
@@ -48,33 +74,20 @@ namespace Week_4___LINQ
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DataClassesDataContext dataClassesDataContext = new DataClassesDataContext();
-          
-            Customer customer = new Customer();
-            customer.Id = txtID.Text;
-            customer.Name = txtName.Text;
-            customer.Email = txtEmal.Text;
-            customer.PhoneNumber = txtPhoneNumber.Text;
-
-            dataClassesDataContext.Customers.InsertOnSubmit(customer);
-            dataClassesDataContext.SubmitChanges();
-
-            loadDgv();
+            clearFieldData();
+            enable(true);
+            isUpdate = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DataClassesDataContext dataClassesDataContext = new DataClassesDataContext();
+            enable(true);
+            isUpdate = true;
+        }
 
-            Customer customer = dataClassesDataContext.Customers.Where(x => x.Id.Equals(txtID.Text)).FirstOrDefault();
-            customer.Id = txtID.Text;
-            customer.Name = txtName.Text;
-            customer.Email = txtEmal.Text;
-            customer.PhoneNumber = txtPhoneNumber.Text;
-
-            dataClassesDataContext.SubmitChanges();
-
-            loadDgv();
+        private bool checkAll()
+        {
+            return true;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -87,6 +100,57 @@ namespace Week_4___LINQ
             dataClassesDataContext.SubmitChanges();
 
             loadDgv();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            enable(false);
+            clearFieldData();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            DataClassesDataContext dataClassesDataContext = new DataClassesDataContext();
+            if (isUpdate)
+            {
+                Customer customer = dataClassesDataContext.Customers.Where(x => x.Id.Equals(txtID.Text)).FirstOrDefault();
+                customer.Id = txtID.Text;
+                customer.Name = txtName.Text;
+                customer.Email = txtEmal.Text;
+                customer.PhoneNumber = txtPhoneNumber.Text;
+
+                dataClassesDataContext.SubmitChanges();
+            }
+            else
+            {
+                Customer customer = new Customer();
+                customer.Id = txtID.Text;
+                customer.Name = txtName.Text;
+                customer.Email = txtEmal.Text;
+                customer.PhoneNumber = txtPhoneNumber.Text;
+
+                bool emailExist = dataClassesDataContext.Administrators.Any(x => x.Email.Equals(txtEmal.Text));
+                if (emailExist)
+                {
+                    MessageBox.Show("Nggak boleh sama, email ");
+                }
+                else if (checkAll())
+                {
+                    dataClassesDataContext.Customers.InsertOnSubmit(customer);
+                    dataClassesDataContext.SubmitChanges();
+                }
+            }
+            loadDgv();
+            enable(false);
+            clearFieldData();
+        }
+
+        private void clearFieldData()
+        {
+            txtID.Text = "";
+            txtName.Text = "";
+            txtEmal.Text = "";
+            txtPhoneNumber.Text = "";
         }
     }
 }
