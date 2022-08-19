@@ -105,14 +105,17 @@ namespace Week_4___LINQ
             }
             else
             {
-                DataClassesDataContext dataClassesDataContext = new DataClassesDataContext();
+                if (MessageBox.Show("Are you sure want delete this Type?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    DataClassesDataContext dataClassesDataContext = new DataClassesDataContext();
 
-                Customer customer = dataClassesDataContext.Customers.Where(x => x.Id.Equals(txtID.Text)).FirstOrDefault();
-                dataClassesDataContext.Customers.DeleteOnSubmit(customer);
+                    Customer customer = dataClassesDataContext.Customers.Where(x => x.Id.Equals(txtID.Text)).FirstOrDefault();
+                    dataClassesDataContext.Customers.DeleteOnSubmit(customer);
 
-                dataClassesDataContext.SubmitChanges();
+                    dataClassesDataContext.SubmitChanges();
 
-                loadDgv();
+                    loadDgv();
+                }
             }
         }
 
