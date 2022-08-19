@@ -64,7 +64,7 @@ namespace Week_4___LINQ
             dgv.Rows.Clear();
 
             DataClassesDataContext dataClassesDataContext = new DataClassesDataContext();
-            IQueryable<Customer> customers = dataClassesDataContext.Customers;
+            IQueryable<Customer> customers = dataClassesDataContext.Customers.Where(x => x.Name.Contains(textBox1.Text) || x.Email.Contains(textBox1.Text));
 
             foreach (Customer customer in customers)
             {
@@ -102,7 +102,7 @@ namespace Week_4___LINQ
             if (currentSelectedRow == -1)
             {
                 MessageBox.Show("You must select datagridview cell");
-            } 
+            }
             else
             {
                 DataClassesDataContext dataClassesDataContext = new DataClassesDataContext();
@@ -165,6 +165,7 @@ namespace Week_4___LINQ
             txtName.Text = "";
             txtEmal.Text = "";
             txtPhoneNumber.Text = "";
+            textBox1.Text = "";
             currentSelectedRow = -1;
         }
 
@@ -179,6 +180,11 @@ namespace Week_4___LINQ
                 txtEmal.Text = dgv.Rows[currentSelectedRow].Cells[2].Value.ToString();
                 txtPhoneNumber.Text = dgv.Rows[currentSelectedRow].Cells[3].Value.ToString();
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            loadDgv();
         }
     }
 }
