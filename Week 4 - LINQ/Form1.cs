@@ -81,8 +81,15 @@ namespace Week_4___LINQ
 
         private void button2_Click(object sender, EventArgs e)
         {
-            enable(true);
-            isUpdate = true;
+            if (currentSelectedRow == -1)
+            {
+                MessageBox.Show("You must select datagridview cell");
+            }
+            else
+            {
+                enable(true);
+                isUpdate = true;
+            }
         }
 
         private bool checkAll()
@@ -92,14 +99,21 @@ namespace Week_4___LINQ
 
         private void button3_Click(object sender, EventArgs e)
         {
-            DataClassesDataContext dataClassesDataContext = new DataClassesDataContext();
+            if (currentSelectedRow == -1)
+            {
+                MessageBox.Show("You must select datagridview cell");
+            } 
+            else
+            {
+                DataClassesDataContext dataClassesDataContext = new DataClassesDataContext();
 
-            Customer customer = dataClassesDataContext.Customers.Where(x => x.Id.Equals(txtID.Text)).FirstOrDefault();
-            dataClassesDataContext.Customers.DeleteOnSubmit(customer);
+                Customer customer = dataClassesDataContext.Customers.Where(x => x.Id.Equals(txtID.Text)).FirstOrDefault();
+                dataClassesDataContext.Customers.DeleteOnSubmit(customer);
 
-            dataClassesDataContext.SubmitChanges();
+                dataClassesDataContext.SubmitChanges();
 
-            loadDgv();
+                loadDgv();
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -151,6 +165,7 @@ namespace Week_4___LINQ
             txtName.Text = "";
             txtEmal.Text = "";
             txtPhoneNumber.Text = "";
+            currentSelectedRow = -1;
         }
 
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
