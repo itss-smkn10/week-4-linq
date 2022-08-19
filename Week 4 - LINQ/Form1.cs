@@ -12,6 +12,7 @@ namespace Week_4___LINQ
 {
     public partial class Form1 : Form
     {
+        private int currentSelectedRow = -1;
         private bool isUpdate = false;
 
         public Form1()
@@ -34,7 +35,6 @@ namespace Week_4___LINQ
 
         private void enableField(bool enabled)
         {
-            txtID.Enabled = enabled;
             txtName.Enabled = enabled;
             txtEmal.Enabled = enabled;
             txtPhoneNumber.Enabled = enabled;
@@ -151,6 +151,19 @@ namespace Week_4___LINQ
             txtName.Text = "";
             txtEmal.Text = "";
             txtPhoneNumber.Text = "";
+        }
+
+        private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                currentSelectedRow = e.RowIndex;
+
+                txtID.Text = dgv.Rows[currentSelectedRow].Cells[0].Value.ToString();
+                txtName.Text = dgv.Rows[currentSelectedRow].Cells[1].Value.ToString();
+                txtEmal.Text = dgv.Rows[currentSelectedRow].Cells[2].Value.ToString();
+                txtPhoneNumber.Text = dgv.Rows[currentSelectedRow].Cells[3].Value.ToString();
+            }
         }
     }
 }

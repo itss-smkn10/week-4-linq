@@ -170,6 +170,7 @@
             // 
             // txtID
             // 
+            this.txtID.Enabled = false;
             this.txtID.Location = new System.Drawing.Point(393, 356);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(182, 22);
@@ -202,6 +203,7 @@
             this.dgv.RowTemplate.Height = 24;
             this.dgv.Size = new System.Drawing.Size(776, 243);
             this.dgv.TabIndex = 38;
+            this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellClick);
             // 
             // textBox1
             // 
