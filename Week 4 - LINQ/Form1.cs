@@ -68,7 +68,7 @@ namespace Week_4___LINQ
 
             foreach (Customer customer in customers)
             {
-                dgv.Rows.Add(customer.Id, customer.Name, customer.Email, customer.PhoneNumber);
+                dgv.Rows.Add(customer.Id, customer.Name, customer.Email, customer.PhoneNumber, "kecap-manis-bango(1).jpeg");
             }
         }
 
@@ -77,6 +77,14 @@ namespace Week_4___LINQ
             clearFieldData();
             enable(true);
             isUpdate = false;
+            setAutoId();
+        }
+
+        private void setAutoId()
+        {
+            DataClassesDataContext dataClassesDataContext = new DataClassesDataContext();
+            int lastId = dataClassesDataContext.Administrators.OrderByDescending(x => x.Id).FirstOrDefault().Id + 1;
+            txtID.Text = lastId.ToString();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -182,12 +190,31 @@ namespace Week_4___LINQ
                 txtName.Text = dgv.Rows[currentSelectedRow].Cells[1].Value.ToString();
                 txtEmal.Text = dgv.Rows[currentSelectedRow].Cells[2].Value.ToString();
                 txtPhoneNumber.Text = dgv.Rows[currentSelectedRow].Cells[3].Value.ToString();
+
+                string imageName = dgv.Rows[currentSelectedRow].Cells[4].Value.ToString();
+
+                if (imageName != null)
+                {
+                    string path = $@"C:\Users\luthf\Downloads\Merchandise Picture\{imageName}";
+                    pictureBox1.ImageLocation = path;
+                }
             }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             loadDgv();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "JPG File|*.jpg|PNG File|*.png|All File(*.*)|*.*";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox1.ImageLocation = openFileDialog1.FileName;
+                MessageBox.Show(openFileDialog1.FileName);
+                MessageBox.Show(openFileDialog1.SafeFileName);
+            }
         }
     }
 }
