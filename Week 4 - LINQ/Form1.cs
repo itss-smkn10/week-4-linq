@@ -78,6 +78,15 @@ namespace Week_4___LINQ
             enable(true);
             isUpdate = false;
             setAutoId();
+            setAutoMerchandiseId();
+        }
+
+        private void setAutoMerchandiseId()
+        {
+            DataClassesDataContext dataClassesDataContext = new DataClassesDataContext();
+            string lastId = dataClassesDataContext.Merchandises.OrderByDescending(x => x.Id).FirstOrDefault().Id;
+            int intId = int.Parse(lastId.Substring(2, 4)) + 1;
+            textBox2.Text = $"PR{intId.ToString().PadLeft(4, '0')}";
         }
 
         private void setAutoId()
