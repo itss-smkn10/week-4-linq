@@ -193,19 +193,26 @@ namespace Week_4___LINQ
         {
             if (e.RowIndex >= 0)
             {
-                currentSelectedRow = e.RowIndex;
-
-                txtID.Text = dgv.Rows[currentSelectedRow].Cells[0].Value.ToString();
-                txtName.Text = dgv.Rows[currentSelectedRow].Cells[1].Value.ToString();
-                txtEmal.Text = dgv.Rows[currentSelectedRow].Cells[2].Value.ToString();
-                txtPhoneNumber.Text = dgv.Rows[currentSelectedRow].Cells[3].Value.ToString();
-
-                string imageName = dgv.Rows[currentSelectedRow].Cells[4].Value.ToString();
-
-                if (imageName != null)
+                if (e.ColumnIndex == 5)
                 {
-                    string path = $@"C:\Users\luthf\Downloads\Merchandise Picture\{imageName}";
-                    pictureBox1.ImageLocation = path;
+                    dgv.Rows.RemoveAt(e.RowIndex);
+                }
+                else
+                {
+                    currentSelectedRow = e.RowIndex;
+
+                    txtID.Text = dgv.Rows[currentSelectedRow].Cells[0].Value.ToString();
+                    txtName.Text = dgv.Rows[currentSelectedRow].Cells[1].Value.ToString();
+                    txtEmal.Text = dgv.Rows[currentSelectedRow].Cells[2].Value.ToString();
+                    txtPhoneNumber.Text = dgv.Rows[currentSelectedRow].Cells[3].Value.ToString();
+
+                    string imageName = dgv.Rows[currentSelectedRow].Cells[4].Value.ToString();
+
+                    if (imageName != null)
+                    {
+                        string path = $@"C:\Users\luthf\Downloads\Merchandise Picture\{imageName}";
+                        pictureBox1.ImageLocation = path;
+                    }
                 }
             }
         }
